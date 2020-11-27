@@ -1,0 +1,43 @@
+<div class="row mt-3">
+    <div class="col d-flex justify-content-between align-items-center">
+        <h4>News from</h4>
+        <button type="button" class="btn btn-info btn-sm" [routerLink]="['/countries']">
+          Back
+        </button>
+    </div>
+</div>
+
+<div class="row" *ngFor="let sr of searchResults; let i = index">
+    <div class="col-4 mb-2" style="border-bottom: 1px grey solid;">
+      <img [src]="sr.image" class="img-fluid rounded">
+    </div>
+    <div class="col-6 mb-8">
+        <div class="caption">
+            {{ sr.source }}
+          </div>
+          <p>
+            {{ sr.author }}
+          </p>
+          <p>
+            {{ sr.title }}
+          </p>
+          <p>
+            {{ sr.description }}
+          </p>
+          <p>
+            <a href="sr.url">{{ sr.url }}</a>
+          </p>
+          <p>
+            {{ sr.publishDate }}
+          </p>
+          <p>
+            {{ sr.content }}
+          </p>
+    </div>
+<!--       <div class="d-flex justify-content-end mb-1" *ngIf="canShare">
+        <button type="button" class="btn btn-outline-dark btn-sm"
+            (click)="shareThis(i)">
+          🔗
+        </button>
+      </div> -->
+</div>

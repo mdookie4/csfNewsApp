@@ -1,0 +1,16 @@
+<div class="row mt-3">
+    <h4>Settings</h4>   
+</div>
+<form [formGroup]="settingsForm">
+    <div class="form-group">
+        <label>NewsAPI.org</label>
+        <input type="text" formControlName="apikey" id="apikey"
+            placeholder="API from newsapi.org" class="form-control">
+        <small id="apihelp" class="form-text text-muted">Please enter the API key from newsapi.org</small>
+    </div>
+    <div class="btn-group btn-block" role="group">
+        <button type="button" class="btn btn-light" (click)="goback()">Back</button>
+        <button type="button" class="btn btn-primary" [disabled]="settingsForm.invalid" (click)="deletekey()">Delete</button>
+        <button type="button" class="btn btn-primary" [disabled]="settingsForm.invalid" (click)="addkey()">Add</button>
+    </div>
+</form>
