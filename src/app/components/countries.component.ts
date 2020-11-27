@@ -36,7 +36,7 @@ export class CountriesComponent implements OnInit {
     //let validCountryDB = false;
     this.newsDB.readCountriesCount()
       .then(resp => {
-        console.info(resp);
+        //console.info(resp);
         return resp as number;
         }
       )
@@ -45,11 +45,11 @@ export class CountriesComponent implements OnInit {
           if(result > 0) {
             const result = this.newsDB.readCountriesFromDB()
             .then(result => { 
-              console.info("x",result);
+              //console.info("x",result);
               this.countryList = result.map(r=> {
                 return r;
               });
-              console.info("countryResult: ", this.countryList);
+              //console.info("countryResult: ", this.countryList);
               return this.countryList;
             })
           }
@@ -60,15 +60,6 @@ export class CountriesComponent implements OnInit {
       )
   }
 
-  // readCountriesFromDB() {
-  //   this.newsDB.readCountriesCount()
-  //     .then(resp => {
-  //       console.info(resp);
-  //       return resp as number;
-  //       }
-  //     );
-  //   console.info("dbc ",dbCount);
-  // }
 
   callCountryAPI() {
     let url = 'https://restcountries.eu/rest/v2/alpha/'
@@ -85,7 +76,7 @@ export class CountriesComponent implements OnInit {
             name: resp.name,
             flag: resp.flag
           } as Country;
-          console.info(this.countryList[i]);
+          //console.info(this.countryList[i]);
           this.newsDB.addCountry(this.countryList[i]);
         })
         //console.info(">>>countrylist: ", this.countryList)
@@ -100,7 +91,7 @@ export class CountriesComponent implements OnInit {
         this.keyResult = result.map(r=> {
           return r['key'];
         });
-        console.info("keyresult: ", this.keyResult[0]);
+        //console.info("keyresult: ", this.keyResult[0]);
         return this.keyResult[0];
       })
       .then(

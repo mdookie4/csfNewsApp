@@ -11,6 +11,7 @@ export interface Country {
 }
 
 export interface News {
+    country: string;
     source: string;
     author: string;
     title: string;
@@ -19,4 +20,5 @@ export interface News {
     image: string;
     publishDate: string;
     content: string;
+    saved?: boolean;
 }

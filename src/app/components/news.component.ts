@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NewsDatabase } from '../news.database'
 import { News } from '../models';
 
 @Component({
@@ -13,9 +14,10 @@ export class NewsComponent implements OnInit {
   qCountry = ''
   tempAPIKey = ''
   searchResults: News[] = [];
+  saved: boolean = true;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute
-    , private http: HttpClient) { }
+    , private http: HttpClient, private newsDB: NewsDatabase) { }
 
   ngOnInit(): void {
     this.qCountry = this.activatedRoute.snapshot.params['country'];
@@ -33,6 +35,7 @@ export class NewsComponent implements OnInit {
         const results = resp['articles'] as any[];
         this.searchResults = results.map(r => {
           return {
+            country: this.qCountry,
             source: r['source'],
             author: r['author'],
             title: r['title'],
@@ -40,11 +43,24 @@ export class NewsComponent implements OnInit {
             url: r['url'],
             image: r['urlToImage'],
             publishDate: r['publishedAt'],
-            content: r['content']
+            content: r['content'],
+            saved: this.saved
           } as News
         })
-        console.info(">>>newsResults: ", this.searchResults)
+        console.info(">>>searchResults: ", this.searchResults)
+        return this.searchResults;
       })
+      .then( resp=> {
+        console.info(">>>newsResults: ", resp);//this.searchResults.length)
+        
+        for(let i in resp){
+            this.newsDB.addNewsInDB(resp[i]);
+            console.info(resp[i]);
+        }
+        }
+      )
+    
+      
   }
 
 }

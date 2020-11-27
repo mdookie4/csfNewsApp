@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import Dexie from 'dexie';
-import { API_KEY, Country } from './models';
+import { API_KEY, Country, News } from './models';
 
 export const normalizeSearchText = (q: string) => q.trim().toLowerCase()
 
@@ -9,6 +9,7 @@ export class NewsDatabase extends Dexie {
 
   private searchOption: Dexie.Table<Country, string>;
   private searchAPI: Dexie.Table<API_KEY, string>;
+  private newsRepo: Dexie.Table<News, string>;
 
   constructor() {
     super('newsDB')
@@ -23,26 +24,15 @@ export class NewsDatabase extends Dexie {
         searchAPI: 'key'
       })
 
-    this.searchOption = this.table('searchOption')
-    this.searchAPI = this.table('searchAPI')
+    this.version(1).stores({
+    // index name
+    newsRepo: 'country'
+    })
+
+    this.searchOption = this.table('searchOption');
+    this.searchAPI = this.table('searchAPI');
+    this.newsRepo = this.table('newsRepo');
   }
-
-/*   async saveSearchOption(s: SearchOption): Promise<any> {
-    const gen = s.genre == Genre.Anime? 0: 1
-    s.q = normaizeSearchText(s.q)
-    // select count(*)  from searchOption where q = 'abc' and genre = 'anime'
-    const resultCount = await this.searchOption
-        .where('q').equals(s.q)
-        .and(doc => doc.genre == gen)
-        .count()
-
-    if (resultCount <= 0)
-      return this.searchOption.add(s)
-  }
-
-  getSearchOptions(): Promise<SearchOption[]> {
-    return this.searchOption.orderBy('q').toArray()
-  } */
 
   checkAPIKey(): Promise<Number> {
     return this.searchAPI.count();    
@@ -71,5 +61,9 @@ export class NewsDatabase extends Dexie {
   addCountry(s: Country):Promise<any> {
       return this.searchOption.add(s);
   }
+
+  addNewsInDB(s: News):Promise<any> {
+    return this.newsRepo.add(s);
+  }  
 
 }
